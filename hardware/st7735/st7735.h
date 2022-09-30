@@ -128,22 +128,22 @@ extern "C" {
 #endif
 // call before initializing any SPI devices
 
-void lcd_write_string(uint16_t x, uint16_t y,  char *str, FontDef font,uint16_t color, uint16_t bgcolor);
-void lcd_fill_rectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h,uint16_t color);
-void lcd_fill_screen(uint16_t color);
-void lcd_draw_image(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *data);
-void lcd_set_address_window(uint8_t x0, uint8_t y0, uint8_t x1,uint8_t y1);
-uint8_t lcd_begin(void);
-void i2c_write_data(uint8_t high, uint8_t low);
-void i2c_write_command(uint8_t command,uint8_t high, uint8_t low);
-void lcd_write_char(uint16_t x, uint16_t y, char ch, FontDef font,uint16_t color, uint16_t bgcolor);
-void i2c_burst_transfer(uint8_t* buff, uint32_t length);
-void lcd_display(uint8_t symbol);
-void lcd_display_cpuLoad(void);
-void lcd_display_ram(void);
-void lcd_display_temp(void);
-void lcd_display_disk(void);
-void lcd_display_percentage(uint8_t val, uint16_t color);
+extern void lcd_write_string(uint16_t x, uint16_t y,  char *str, FontDef font,uint16_t color, uint16_t bgcolor);
+extern void lcd_fill_rectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h,uint16_t color);
+extern void lcd_fill_screen(uint16_t color);
+extern void lcd_draw_image(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *data);
+extern void lcd_set_address_window(uint8_t x0, uint8_t y0, uint8_t x1,uint8_t y1);
+extern uint8_t lcd_begin(void);
+extern void i2c_write_data(uint8_t high, uint8_t low);
+extern void i2c_write_command(uint8_t command,uint8_t high, uint8_t low);
+extern void lcd_write_char(uint16_t x, uint16_t y, char ch, FontDef font,uint16_t color, uint16_t bgcolor);
+extern void i2c_burst_transfer(uint8_t* buff, uint32_t length);
+extern void lcd_display(uint8_t symbol);
+extern void lcd_display_cpuLoad(void);
+extern void lcd_display_ram(void);
+extern void lcd_display_temp(void);
+extern void lcd_display_disk(void);
+extern void lcd_display_percentage(uint8_t val, uint16_t color);
 #ifdef __cplusplus
 }
 #endif
