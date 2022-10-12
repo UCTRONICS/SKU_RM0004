@@ -21,7 +21,6 @@
 #define BURST_WRITE_REG    0X01
 #define SYNC_REG           0X03
 
-
 #define ST7735_MADCTL_MY 0x80
 #define ST7735_MADCTL_MX 0x40
 #define ST7735_MADCTL_MV 0x20
@@ -29,9 +28,6 @@
 #define ST7735_MADCTL_RGB 0x00
 #define ST7735_MADCTL_BGR 0x08
 #define ST7735_MADCTL_MH 0x04
-
-
-
 
 // mini 160x80 display (it's unlikely you want the default orientation)
 /*
@@ -128,7 +124,15 @@ extern "C" {
 #endif
 // call before initializing any SPI devices
 
+typedef enum FontType{
+  FontType_7x10 = 0,
+  FontType_8x16,
+  FontType_11x18,
+  FontType_16x26
+}FontType;
+
 extern void lcd_write_string(uint16_t x, uint16_t y,  char *str, FontDef font,uint16_t color, uint16_t bgcolor);
+extern void lcd_write_str(uint16_t x, uint16_t y,  char *str, FontType font,uint16_t color, uint16_t bgcolor);
 extern void lcd_fill_rectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h,uint16_t color);
 extern void lcd_fill_screen(uint16_t color);
 extern void lcd_draw_image(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *data);
@@ -137,6 +141,7 @@ extern uint8_t lcd_begin(void);
 extern void i2c_write_data(uint8_t high, uint8_t low);
 extern void i2c_write_command(uint8_t command,uint8_t high, uint8_t low);
 extern void lcd_write_char(uint16_t x, uint16_t y, char ch, FontDef font,uint16_t color, uint16_t bgcolor);
+extern void lcd_write_ch(uint16_t x, uint16_t y, char ch, FontType font,uint16_t color, uint16_t bgcolor);
 extern void i2c_burst_transfer(uint8_t* buff, uint32_t length);
 extern void lcd_display(uint8_t symbol);
 extern void lcd_display_cpuLoad(void);
