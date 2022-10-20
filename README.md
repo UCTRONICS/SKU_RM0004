@@ -1,5 +1,6 @@
 # SKU_RM0004
-
+The project supports running on RaspberryPi, Ubuntu, [HomeAssistant](https://github.com/UCTRONICS/UCTRONICS_RM0004_HA),You can also use Python to call compiled DLLs on these platforms.
+# RaspberryPi
 ## Turn on i2c and set the speed
 **Add the following to the /boot/config.txt file**
 ```bash
