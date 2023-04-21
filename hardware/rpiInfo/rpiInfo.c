@@ -135,11 +135,11 @@ uint8_t get_hard_disk_memory(uint16_t *diskMemSize, uint16_t *useMemSize)
   uint8_t diskMembuff[10] = {0};
   uint8_t useMembuff[10] = {0};
   FILE *fd = NULL;
-  fd=popen("df -l | grep /dev/sda | awk '{printf \"%s\", $(2)}'","r"); 
+  fd=popen("df -l / | grep /dev/sda | awk '{printf \"%s\", $(2)}'","r"); 
   fgets(diskMembuff,sizeof(diskMembuff),fd);
   fclose(fd);
 
-  fd=popen("df -l | grep /dev/sda | awk '{printf \"%s\", $(3)}'","r"); 
+  fd=popen("df -l / | grep /dev/sda | awk '{printf \"%s\", $(3)}'","r"); 
   fgets(useMembuff,sizeof(useMembuff),fd);
   fclose(fd);
 
