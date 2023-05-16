@@ -19,16 +19,19 @@ sudo reboot
 ```
 **Wait for the system to restart**
 
-##  Clone SKU_RM0004 library 
+##  Clone SKU_RM0004 library
 ```bash
 git clone https://github.com/UCTRONICS/SKU_RM0004.git
 ```
-## Compile 
+## Configure
+Modify `rpiInfo.h` and set `IPADDRESS_INTERFACE` to the interface to use to display the IP address from.
+
+## Compile
 ```bash
 cd SKU_RM0004
 make
 ```
-## Run 
+## Run
 ```
 ./display
 ```
@@ -44,14 +47,8 @@ sudo nano /etc/rc.local
 **Add command to the rc.local file**
 ```bash
 cd /home/pi/SKU_RM0004
-make clean 
-make 
+make clean
+make
 ./display &
 ```
 **reboot your system**
-
-
-
-
-
-
