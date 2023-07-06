@@ -98,7 +98,7 @@ void get_cpu_memory(float *Totalram,float *freeram)
             {
              *Totalram=value/1000.0/1000.0;
             }
-            else if(strcmp(famer,"MemFree:")==0)
+            else if(strcmp(famer,"MemAvailable:")==0)
             {
               *freeram=value/1000.0/1000.0;
             }
