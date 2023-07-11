@@ -19,7 +19,12 @@ sudo reboot
 ```
 **Wait for the system to restart**
 
-##  Clone SKU_RM0004 library 
+##  Ubuntu
+Install necessary dependencies to compile the project:
+```bash
+sudo apt install make gcc
+```
+##  Clone SKU_RM0004 library
 ```bash
 git clone https://github.com/UCTRONICS/SKU_RM0004.git
 ```
