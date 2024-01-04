@@ -173,10 +173,8 @@ void lcd_fill_screen(uint16_t color)
 
 void lcd_draw_image(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *data)
 {
-    uint16_t col = h - y;
-    uint16_t row = w - x;
     lcd_set_address_window(x, y, x + w - 1, y + h - 1);
-    i2c_burst_transfer(data, sizeof(uint16_t) * col * row);
+    i2c_burst_transfer(data, sizeof(uint16_t) * w * h);
 }
 
 uint8_t lcd_begin(void)
