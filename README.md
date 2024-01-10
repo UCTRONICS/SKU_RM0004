@@ -1,6 +1,13 @@
 # SKU_RM0004
 The project supports running on RaspberryPi, Ubuntu, [HomeAssistant](https://github.com/UCTRONICS/UCTRONICS_RM0004_HA),You can also use Python to call compiled DLLs on these platforms.
 # RaspberryPi
+
+## Deployment service
+> Run in the SKU_RM0004 folder
+```bash
+./deployment_service.sh   
+```
+>You can also manually deploy according to the following steps
 ## Turn on i2c and set the speed
 **Add the following to the /boot/config.txt file**
 ```bash
