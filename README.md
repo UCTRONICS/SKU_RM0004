@@ -26,23 +26,58 @@ sudo reboot
 ```
 **Wait for the system to restart**
 
-##  Clone SKU_RM0004 library 
+<br>
+
+##  Pre-Requisites
+### Ubuntu
+Install necessary dependencies to compile the project:
+```bash
+sudo apt install make gcc
+```
+### Home Assistant
+```bash
+$ apk add make gcc musl-dev i2c-tools i2c-tools-dev linux-headers
+```
+
+##  Building
+###  Clone SKU_RM0004 library
 ```bash
 git clone https://github.com/UCTRONICS/SKU_RM0004.git
 ```
-## Compile 
+### Compile 
 ```bash
 cd SKU_RM0004
 make
 ```
-## Run 
+### Run 
 ```
 ./display
 ```
 
+## Installing
 
+### Ubuntu
+1. Create file `/etc/systemd/system/rpi-display.service`
+    ```
+    [Unit]
+    After=network.target
 
+    [Service]
+    ExecStart=/home/user/git/SKU_RM0004/display
 
+    [Install]
+    WantedBy=default.target
+    ```
+1. Create folder (if it doesn't exist):
+    ```
+    $ mkdir /etc/systemd/system/default.target.wants
+    ```
+1. Create soft link to service file:
+    ```
+    $ ln -s /etc/systemd/system/rpi-display.service /etc/systemd/system/default.target.wants/default.target.wants
+    ```
+
+### Others
 ## Add automatic start script
 **Open the rc.local file**
 ```bash
