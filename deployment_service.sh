@@ -85,4 +85,7 @@ if [ -e "$file_path""$service_name" ]; then
     else 
         exit 0
     fi
+else
+    echo "Installing UCtronics display service"
+    install_service
 fi
