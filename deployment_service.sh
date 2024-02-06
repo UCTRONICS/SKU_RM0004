@@ -63,6 +63,19 @@ install_service() {
 
 BOOT_CONFIG="/boot/config.txt"
 
+# Verify config file exists, BEGIN
+if [ ! -e $BOOT_CONFIG ]; then
+    echo "Creating ${BOOT_CONFIG}..."
+    sudo bash -c 'touch '${BOOT_CONFIG}
+    if [ $? -ne 0 ]; then
+        echo "Failed to create file. Exiting."
+        exit 1
+    else
+        echo "Successfully created file."
+    fi
+fi
+# Verify config file exists, END
+
 if [ `grep -c "dtoverlay=gpio-shutdown,gpio_pin=4,active_low=1,gpio_pull=up" $BOOT_CONFIG` -lt '1' ];then
     sudo bash -c 'echo dtoverlay=gpio-shutdown,gpio_pin=4,active_low=1,gpio_pull=up >> /boot/config.txt'
 fi
