@@ -5,7 +5,7 @@
 /**********Select display temperature type**************/
 #define CELSIUS       0
 #define FAHRENHEIT    1
-#define TEMPERATURE_TYPE  CELSIUS
+#define TEMPERATURE_TYPE  FAHRENHEIT
 /**********Select display temperature type**************/
 
 /**********Select display network IP type**************/
