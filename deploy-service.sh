@@ -58,11 +58,7 @@ get-os() {
 ## Function: Create the boot.config file
 new-config() {
     if [ "$OS_DISTRO" == "ubuntu" ] && [ "$OS_RELEASE" -ge 2204 ]; then
-        # TESTING: Uncomment after testing 
-        #export BOOT_CONFIG="/boot/firmware/config.txt"
-
-        # TESTING: Remove after testing
-        export BOOT_CONFIG="~/config.txt"
+        export BOOT_CONFIG="/boot/firmware/config.txt"
     else
         export BOOT_CONFIG="/boot/config.txt"
     fi
