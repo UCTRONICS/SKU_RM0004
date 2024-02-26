@@ -185,9 +185,6 @@ fi
 printf "\nScanning for a Linux operating system: " ; get-os ; printf "%s %s\n" ${OS_DISTRO} ${OS_RELEASE}
 printf "Creating the config.txt file: " ; new-config ; printf "%s\n" ${BOOT_CONFIG}
 
-# TESTING: Remove after testing
-sudo chown moebius:moebius ${BOOT_CONFIG} 
-
 printf "Writing i2c entries to config file..." ; set-config ; printf "DONE\n\n"
 
 printf "Creating a new service unit: " ; new-service ; printf "%s%s.service\n" ${SVC_DIR} ${SVC_NAME}
