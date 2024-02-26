@@ -5,6 +5,10 @@ file_path="/etc/systemd/system/"
 service_name="uctronics-display.service"
 exe_path=$(pwd)/"display"
 
+version=$(cat /etc/os-release | grep "VERSION_ID" | awk -F= '{print $2}' | tr -d '"')
+
+converted_version=$((version))
+
 deploy_function_service() {
     echo Create a new service "$file_path""$service_name".
 
@@ -43,14 +47,23 @@ install_service() {
 
             echo "Enable and start the service."
             sudo systemctl enable $service_name
-            sudo systemctl start $service_name
+            # sudo systemctl start $service_name
 
-            # Check if the service is active
-            if sudo systemctl is-active --quiet $service_name; then
-                echo "Service $service_name has been successfully enabled and started."
-            else
-                echo "Failed to start service $service_name."
+            # # Check if the service is active
+            # if sudo systemctl is-active --quiet $service_name; then
+            #     echo "Service $service_name has been successfully enabled and started."
+            # else
+            #     echo "Failed to start service $service_name."
+            # fi
+
+            echo "The script needs to be restarted to take effect. Do you need to restart now? (y/n)"
+            read -r answer
+            if [ "$answer" = 'y' ] || [ "$answer" = 'Y' ]; then
+                sudo reboot
+            else 
+                exit 0
             fi
+
         else
             echo "Function service deployment failed. Aborting."
         fi
@@ -63,26 +76,33 @@ install_service() {
 
 BOOT_CONFIG="/boot/config.txt"
 
-if [ `grep -c "dtoverlay=gpio-shutdown,gpio_pin=4,active_low=1,gpio_pull=up" $BOOT_CONFIG` -lt '1' ];then
-    sudo bash -c 'echo dtoverlay=gpio-shutdown,gpio_pin=4,active_low=1,gpio_pull=up >> /boot/config.txt'
+if [ $converted_version -ge 12 ]; then
+    BOOT_CONFIG="/boot/firmware/config.txt"
 fi
+
+if [ `grep -c "dtoverlay=gpio-shutdown,gpio_pin=4,active_low=1,gpio_pull=up" $BOOT_CONFIG` -lt '1' ];then
+    sudo bash -c "echo dtoverlay=gpio-shutdown,gpio_pin=4,active_low=1,gpio_pull=up >> $BOOT_CONFIG"
+fi
+
 if [ `grep -c "dtparam=i2c_arm=on,i2c_arm_baudrate=400000" $BOOT_CONFIG` -lt '1' ];then
     if [ `grep -c "#dtparam=i2c_arm=on" $BOOT_CONFIG` -ne '0' ];then
-        sudo sed -i "s/\(^#dtparam=i2c_arm=on\)/dtparam=i2c_arm=on,i2c_arm_baudrate=400000/" /boot/config.txt
+        sudo sed -i "s/\(^#dtparam=i2c_arm=on\)/dtparam=i2c_arm=on,i2c_arm_baudrate=400000/" $BOOT_CONFIG
     elif [ `grep -c "dtparam=i2c_arm=on" $BOOT_CONFIG` -ne '0' ]; then
-        sudo sed -i "s/\(^dtparam=i2c_arm=on\)/dtparam=i2c_arm=on,i2c_arm_baudrate=400000/" /boot/config.txt
+        sudo sed -i "s/\(^dtparam=i2c_arm=on\)/dtparam=i2c_arm=on,i2c_arm_baudrate=400000/" $BOOT_CONFIG
     else 
-        sudo bash -c 'echo dtparam=i2c_arm=on,i2c_arm_baudrate=400000 >> /boot/config.txt'
+        sudo bash -c "echo -e '\ndtparam=i2c_arm=on,i2c_arm_baudrate=400000' >> $BOOT_CONFIG"
     fi
 fi
 
 # Deploy the function service
 if [ -e "$file_path""$service_name" ]; then
-    echo "Service already exists. Do you want to overwrite? y/n"
+    echo "Service already exists. Do you want to overwrite? (y/n)"
     read -r answer
     if [ "$answer" = 'y' ] || [ "$answer" = 'Y' ]; then
         install_service
     else 
         exit 0
     fi
+else 
+    install_service
 fi
