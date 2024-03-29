@@ -1,4 +1,4 @@
-# How to burn imge to NVMe and boot from NVMe
+# How to burn image to NVMe and boot from NVMe
 ### Hardware connection 
 <div align=left><img width="500" height="400" src=hardware.png/></div>
 
