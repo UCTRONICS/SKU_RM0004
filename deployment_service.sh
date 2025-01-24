@@ -6,7 +6,7 @@ service_name="uctronics-display.service"
 exe_path=$(pwd)/"display"
 
 version=$(cat /etc/os-release | grep "VERSION_ID" | awk -F= '{print $2}' | tr -d '"')
-
+MODEL=$(cat /proc/device-tree/model)
 converted_version=$((version))
 
 deploy_function_service() {
@@ -73,6 +73,18 @@ install_service() {
         exit 0
     fi
 }
+detect_pi_model() {
+    if [[ $MODEL == *"Raspberry Pi 5"* ]]; then
+        echo "Detected Raspberry Pi 5"
+        return 0
+    elif [[ $MODEL == *"Raspberry Pi 4"* ]]; then
+        echo "Detected Raspberry Pi 4"
+        return 0
+    else
+        echo "Unsupported Raspberry Pi model. Please use Raspberry Pi 4 or 5."
+        return 1
+    fi
+}
 
 BOOT_CONFIG="/boot/config.txt"
 
@@ -80,9 +92,21 @@ if [ $converted_version -ge 12 ]; then
     BOOT_CONFIG="/boot/firmware/config.txt"
 fi
 
-if [ `grep -c "dtoverlay=gpio-shutdown,gpio_pin=4,active_low=1,gpio_pull=up" $BOOT_CONFIG` -lt '1' ];then
-    sudo bash -c "echo dtoverlay=gpio-shutdown,gpio_pin=4,active_low=1,gpio_pull=up >> $BOOT_CONFIG"
+
+if detect_pi_model; then
+    if [[ $(detect_pi_model) == *"Raspberry Pi 5"* ]]; then
+        echo "Adding overlay configuration for Raspberry Pi 5"
+        if [ `grep -c "gpio-shutdown,gpio_pin=4" $BOOT_CONFIG` -lt '1' ]; then
+            sudo bash -c "echo dtoverlay=gpio-shutdown,gpio_pin=4,active_low=1,gpio_pull=up,debounce=1000 >> $BOOT_CONFIG"
+        fi
+    elif [[ $(detect_pi_model) == *"Raspberry Pi 4"* ]]; then
+        echo "Adding overlay configuration for Raspberry Pi 4"
+        if [ `grep -c "gpio-shutdown,gpio_pin=4" $BOOT_CONFIG` -lt '1' ]; then
+            sudo bash -c "echo dtoverlay=gpio-shutdown,gpio_pin=4,active_low=1,gpio_pull=up >> $BOOT_CONFIG"
+        fi
+    fi
 fi
+
 
 if [ `grep -c "dtparam=i2c_arm=on,i2c_arm_baudrate=400000" $BOOT_CONFIG` -lt '1' ];then
     if [ `grep -c "#dtparam=i2c_arm=on" $BOOT_CONFIG` -ne '0' ];then
