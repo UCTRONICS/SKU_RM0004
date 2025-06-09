@@ -10,7 +10,7 @@ git clone https://github.com/UCTRONICS/SKU_RM0004.git
 > Compile 
 ```bash
 cd SKU_RM0004
-make
+make clean && make 
 ```
 ## Add automatic start script
 ```bash
