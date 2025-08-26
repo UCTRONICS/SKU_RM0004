@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include "st7735.h"
 #include <stdlib.h>
+#include <sys/statvfs.h>
 
 /*
 * Get the IP address of wlan0 or eth0
@@ -170,21 +171,21 @@ void get_sd_memory(uint32_t *MemSize, uint32_t *freesize)
 */
 uint8_t get_hard_disk_memory(uint16_t *diskMemSize, uint16_t *useMemSize)
 {
-  *diskMemSize = 0;
-  *useMemSize = 0;
-  uint8_t diskMembuff[10] = {0};
-  uint8_t useMembuff[10] = {0};
-  FILE *fd = NULL;
-  fd=popen("df -l | grep /dev/sda | awk '{printf \"%s\", $(2)}'","r"); 
-  fgets(diskMembuff,sizeof(diskMembuff),fd);
-  fclose(fd);
+    struct statvfs fs;
+    if (statvfs("/", &fs) != 0) {
+        *diskMemSize = 0;
+        *useMemSize = 0;
+        return 1; // Fehler
+    }
 
-  fd=popen("df -l | grep /dev/sda | awk '{printf \"%s\", $(3)}'","r"); 
-  fgets(useMembuff,sizeof(useMembuff),fd);
-  fclose(fd);
+    unsigned long long total = (unsigned long long) fs.f_blocks * fs.f_frsize;
+    unsigned long long free  = (unsigned long long) fs.f_bfree  * fs.f_frsize;
+    unsigned long long used  = total - free;
 
-  *diskMemSize = atoi(diskMembuff)/1024/1024;
-  *useMemSize  = atoi(useMembuff)/1024/1024;
+    *diskMemSize = (uint16_t)(total >> 20);  // MB
+    *useMemSize  = (uint16_t)(used  >> 20);  // MB
+
+    return 0;
 }
 
 /*
