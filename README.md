@@ -16,6 +16,7 @@ make clean && make
 ```bash
 ./deployment_service.sh   
 ```
+
 **reboot your system**
 ```bash
 sudo reboot
@@ -32,7 +33,29 @@ sudo systemctl daemon-reload
 
 https://github.com/UCTRONICS/SKU_RM0004/blob/main/data/NVMe_User_Guide.md
 
+## Troubleshooting
 
+### Screen is stuck on the UCTRONICS logo
 
+ **reboot after making changes**
 
+#### Enable ARM I2C through `raspi-config`
+```bash
+sudo raspi-config
+```
 
+![image](data/i2c-module-1.jpg)
+![image](data/i2c-module-2.jpg)
+![image](data/i2c-module-3.jpg)
+
+#### Check for valid configuration in `/boot/firmware/config.txt`
+```bash
+...
+dtparam=i2c_arm=on
+...
+# UCTronics LCD
+dtparam=i2c_arm_baudrate=400000
+...
+# UCTronics Power Button
+dtoverlay=gpio-shutdown,gpio_pin=4,active_low=1,gpio_pull=up
+```
