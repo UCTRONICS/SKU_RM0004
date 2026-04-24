@@ -192,6 +192,7 @@ uint8_t lcd_begin(void)
     {
         return 1;
     }
+    i2c_write_command(SCAN_DIRECTION_REG, 0x00, ST7735_ROTATION);
     return 0;
 }
 
