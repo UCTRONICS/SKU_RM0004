@@ -247,6 +247,9 @@ void lcd_display(uint8_t symbol)
     case 3:
         lcd_display_disk();
         break;
+    case 4:
+        lcd_display_net();
+        break;
     default:
         break;
     }
@@ -368,4 +371,23 @@ void lcd_display_disk(void)
     lcd_write_string(85, 35, residueStr, Font_11x18, ST7735_WHITE, ST7735_BLACK);
     lcd_write_string(118, 35, "%", Font_11x18, ST7735_WHITE, ST7735_BLACK);
     lcd_display_percentage(residue, ST7735_BLUE);
+}
+
+void lcd_display_net(void)
+{
+    char rx_str[20] = {0};
+    char tx_str[20] = {0};
+
+    get_network_speed(rx_str, tx_str);
+
+    // Clear content area below header separator
+    lcd_fill_rectangle(0, 25, ST7735_WIDTH, 55, ST7735_BLACK);
+
+    // Download row (y = 32)
+    lcd_write_string(10, 32, "DL:", Font_8x16, ST7735_GREEN, ST7735_BLACK);
+    lcd_write_string(42, 32, rx_str, Font_8x16, ST7735_WHITE, ST7735_BLACK);
+
+    // Upload row (y = 54)
+    lcd_write_string(10, 54, "UL:", Font_8x16, ST7735_YELLOW, ST7735_BLACK);
+    lcd_write_string(42, 54, tx_str, Font_8x16, ST7735_WHITE, ST7735_BLACK);
 }

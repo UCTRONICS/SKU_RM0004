@@ -19,7 +19,10 @@ Description=UCtronics Display
 After=multi-user.target
 
 [Service]
+Type=simple
 ExecStart=/bin/sh -c "'$exe_path'"
+Restart=always
+RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target

@@ -23,7 +23,7 @@ int main(void)
 		sleep(1);
         sleep(1);
 		symbol++;
-		if(symbol==4)
+		if(symbol==5)
         {
           symbol=0;
         }

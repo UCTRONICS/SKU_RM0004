@@ -29,5 +29,6 @@ void get_cpu_memory(float *Totalram, float *freeram);
 uint8_t get_temperature(void);
 uint8_t get_cpu_message(void);
 uint8_t get_hard_disk_memory(uint16_t *diskMemSize, uint16_t *useMemSize);
+void get_network_speed(char *rx_str, char *tx_str);
 
 #endif /*__RPIINFO_H*/

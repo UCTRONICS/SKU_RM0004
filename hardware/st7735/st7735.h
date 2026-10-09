@@ -148,6 +148,7 @@ extern void lcd_display_cpuLoad(void);
 extern void lcd_display_ram(void);
 extern void lcd_display_temp(void);
 extern void lcd_display_disk(void);
+extern void lcd_display_net(void);
 extern void lcd_display_percentage(uint8_t val, uint16_t color);
 #ifdef __cplusplus
 }

@@ -14,6 +14,6 @@ if __name__ == '__main__':
         time.sleep(1)
         time.sleep(1)
         switch_flag += 1
-        if switch_flag == 4 :
+        if switch_flag == 5 :
             switch_flag = 0
     
